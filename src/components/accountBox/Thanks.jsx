@@ -3,7 +3,7 @@ import React from 'react'
 export default function Thanks() {
     return (
         <div>
-            <h1>THANKYOU</h1>
+            <h1 style={{}}>Worker DashBoard</h1>
         </div>
     )
 }

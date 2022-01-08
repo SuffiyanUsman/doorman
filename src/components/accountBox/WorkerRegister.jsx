@@ -2,7 +2,8 @@ import React , { useContext,useState } from 'react'
 import { Link } from 'react-router-dom'
 import {db} from '../../config';
 import { getAuth , createUserWithEmailAndPassword } from "firebase/auth";
-import {collection,addDoc} from 'firebase/firestore';
+import {collection,addDoc,setDoc,doc} from 'firebase/firestore';
+import { useHistory } from 'react-router-dom';
 import {
   BoldLink,
   BoxContainer,
@@ -29,6 +30,8 @@ function WorkerRegister() {
     const [contact,setContact] = useState('');
     const [address,setAddress] = useState('');
 
+    const history = useHistory();
+
     const workersCollectionRef = collection(db,"workers");
     const auth = getAuth();
   const submitHandle = async (e)=>{
@@ -39,9 +42,9 @@ function WorkerRegister() {
         alert('Fill All the input field')
     
     }
-    else if(!firstName.match(correct_way)){
-        alert('FirstName must be letters only')
-    }
+    // else if(!firstName.match(correct_way)){
+    //     alert('FirstName must be letters only')
+    // }
     else if(!lastName.match(correct_way)){
         alert('LastName must be letters only')
     }
@@ -54,16 +57,24 @@ function WorkerRegister() {
     }
 
     else{
-
-        await addDoc(workersCollectionRef,{firstName:firstName, lastName:lastName , email: email , password: password , gender: gender , 
-            workerType:workerType  })
             await createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
-                const user = userCredential.user;
+                const worker = userCredential.user;
+                        setDoc(doc(db,"workers",worker.uid),{
+                        firstname:firstName,
+                        lastName:lastName,
+                        email:email,
+                        password:password,
+                        gender:gender,
+                        workerType:workerType,
+                        uid:worker.uid
+                    })
+            
+                 history.push('/');
+            })
                 
                 // ...
-            })
             .catch((error) => {
                 // const errorCode = error.code;
                 const errorMessage = error.message;

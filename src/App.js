@@ -10,11 +10,14 @@ import {
 import WorkerRegister from "./components/accountBox/WorkerRegister";
 import Home from "./components/accountBox/Home";
 import Thankyou from "./components/accountBox/Thanks";
-
+import User from './components/accountBox/user'
 import { LoginForm } from "./components/accountBox/loginForm";
 import UserRegister from "./components/accountBox/UserRegister";
 import './style/style.css';
 import Nav from './components/header/Nav';
+
+import AuthProvider from "./contexts/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
 
 
 const AppContainer = styled.div`
@@ -38,14 +41,11 @@ const App = ()=>{
               </li>
         </div> */}
         <Nav />
-    
+    <AuthProvider>
       <Switch>
           
-          <Route exact path="/">
+          <Route exact path="/login">
             <LoginForm />
-          </Route>
-          <Route path="/home">
-            <Home />
           </Route>
           <Route path="/UserRegister">
             <UserRegister />
@@ -56,8 +56,13 @@ const App = ()=>{
           <Route path="/thankyou">
             <Thankyou />
           </Route>
+           <Route path="/user">
+            <User />
+          </Route>
+          <PrivateRoute path="/" component={(props) => <Home {...props} /> } />
        
         </Switch> 
+        </AuthProvider>
     </Router>
       
   );

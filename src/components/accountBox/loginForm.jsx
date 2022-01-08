@@ -19,26 +19,44 @@ import {
 import '../../style/style.css';
 import logo from '../../images/logo.PNG';
 import Home from './Home';
-
+import { useAuth } from '../../contexts/AuthContext';
+import {db} from '../../config'
+import {doc,getDoc} from 'firebase/firestore'
 
 export function LoginForm(props) {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
+  const [worker,setWorker] = useState([]);
+  const [user,setUser] = useState([]);
+
+    const {login} = useAuth();
+
   // const { switchToSignup } = useContext(AccountContext);
-  let history = useHistory(); 
-  function home(){
-    history.push('/home');
-  }
-  
+  let history = useHistory();
+
+    
   const auth = getAuth();
+
   const submitHandle = async (e)=>{
     e.preventDefault();
-    await signInWithEmailAndPassword(auth, email, password)
+    await login(email, password)
     .then((userCredential) => {
     const user = userCredential.user;
-    console.log(user);
+
     if(user){
-      return home();
+      // const docRef = doc(db, "users", user.uid);
+      getDoc(doc(db, "users", user.uid)).then(docSnap => {
+  if (docSnap.exists()) {
+      return history.push('/user')
+  } else {
+        return history.push('/')
+  }
+})
+      // const docSnap = getDoc(docRef);
+      //   if (docSnap) {
+      //   } else {
+
+      //   }
     }
   })
 .catch((error) => {

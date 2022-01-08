@@ -30,7 +30,7 @@ const initialState = {
     shopaddress:'',
     openingTime:'',
     closingTime:"",
-
+    status:"",
 }
 
 
@@ -41,7 +41,7 @@ function Home(){
   const [state,setState] = useState(initialState);
   
   const  history = useHistory();
-  const {workerName,city,area,contact,address,domain,workingField,experience,shopaddress,openingTime,closingTime} = state;
+  const {workerName,city,area,contact,address,domain,workingField,experience,shopaddress,openingTime,closingTime,status} = state;
   
   
   const workerProfileCollectionRef = collection(db,'WorkerProfile');
@@ -148,6 +148,10 @@ function Home(){
                 <div>
                     <Label>Closing Time</Label>
                     <Input type="time" placeholder="Country" name='closingTime' value={closingTime} onChange={handleInputChange} /> 
+                </div>
+                <div>
+                    <Label>Status</Label>
+                    <Input type="text" name='status' value="false" onChange={handleInputChange} disabled/> 
                 </div>
                 </div>
                     <SubmitButton type='submit' style={{height:'40px',width:'760px',textJustify:'center',margin:'15px auto ',marginLeft:''}}>Submit</SubmitButton>

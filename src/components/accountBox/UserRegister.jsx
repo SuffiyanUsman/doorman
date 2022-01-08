@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {db} from '../../config';
-
+import { useHistory } from 'react-router-dom';
 import { getAuth , createUserWithEmailAndPassword } from "firebase/auth";
-import {collection,addDoc} from 'firebase/firestore';
+import {collection,addDoc,doc,setDoc} from 'firebase/firestore';
 import {
   BoldLink,
   BoxContainer,
@@ -25,24 +25,65 @@ function UserRegister() {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [confirmPassword,setConfirmPassword] = useState('');
-    const usersCollectionRef = collection(db,"users");
-
+    
+    const usersRef = collection(db,"users");
+    
+    const history = useHistory();
 const auth = getAuth();
   const submitHandle = async (e)=>{
     e.preventDefault();
-      await addDoc(usersCollectionRef,{firstName:firstName, lastName:lastName , email: email , password: password})
-      await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
+    let correct_way = /^[A-Za-z]+$/;
 
-      // ...
-    })
+    if(!firstName || !lastName|| !email || !password  ){
+        alert('Fill All the input field')
+    
+    }
+    else if(!firstName.match(correct_way)){
+        alert('FirstName must be letters only')
+    }
+    else if(!lastName.match(correct_way)){
+        alert('LastName must be letters only')
+    }
+   
+    else if(password.length <= 6 || password.length >=14){
+        alert('password must be 7 digit to 14 digit')
+    }
+    //   await addDoc(usersCollectionRef,{firstName:firstName, lastName:lastName , email: email , password: password})
+      await createUserWithEmailAndPassword(auth, email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                // usersRef.doc(`${user.uid}`).set({
+                //     firstName:firstName,
+                //     lastName:lastName,
+                //     email:email,
+                //     password:password,
+                //     uid:user.uid
+                // })
+
+                    setDoc(doc(db,"users",user.uid),{
+                        firstname:firstName,
+                        lastName:lastName,
+                        email:email,
+                        password:password,
+                        uid:user.uid
+                    })
+            
+                 history.push('/user');
+            })
+
+
+    //   .then((userCredential) => {
+    //   // Signed in 
+    //   const user = userCredential.user;
+
+    //   // ...
+    // })
   .catch((error) => {
     // const errorCode = error.code;
     const errorMessage = error.message;
     console.log(errorMessage);
   });
+  alert('Registration successful')
 }
     return (
         <div style={{}}>
