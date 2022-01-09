@@ -55,7 +55,7 @@ function Home(){
   const handleSubmit = async(e)=>{
       e.preventDefault();
 
-      if(!workerName || !city || !area || !contact || !address || !domain  || !experience || !openingTime || !closingTime){
+      if(!workerName || !city || !area || !contact || !address || !domain || !workingField || !experience || !openingTime || !closingTime){
           alert('Please Provide all input Field ')
       }
       else{
@@ -106,9 +106,9 @@ function Home(){
                 <div>
                     <Label>Domain</Label>
                     {/* <Input type="text"  placeholder="Domain" onChange={(e)=>setFirstName(e.target.value)} /> */}
-                    <select style={{width:'100%',height:'45px',padding:'0px 10px',color:" rgba(200, 200, 200, 1)",outline:'none',border: "1px solid rgba(200, 200, 200, 0.3)"}} name='domain' value={domain} onChange={handleInputChange} >
-                            <option disabled selected>Worker Type</option>
-                            <option>Plumber</option>
+                    <select style={{width:'100%',height:'45px',padding:'0px 5px',color:" black",outline:'none',border: "1px solid rgba(200, 200, 200, 0.3)"}} name='domain' value={domain} onChange={handleInputChange} >
+                            <option>Worker Type</option>
+                            <option >Plumber</option>
                             <option>Electrician</option>
                             <option>Mechanic</option>
                             <option>Painter</option>
@@ -118,7 +118,7 @@ function Home(){
 
                     <div>
                     <Label>Working Fields</Label>
-                    <select style={{width:'100%',height:'45px',padding:'0px 10px',color:" rgba(200, 200, 200, 1)",outline:'none',border: "1px solid rgba(200, 200, 200, 0.3)"}}  name='workingField' value={workingField} onChange={handleInputChange} >
+                    <select style={{width:'100%',height:'45px',padding:'0px 5px',color:" black",outline:'none',border: "1px solid rgba(200, 200, 200, 0.3)"}}  name='workingField' value={workingField} onChange={handleInputChange} >
                             <option disabled selected>Worker Field</option>
                             <option>Residential</option>
                             <option>Commercial</option>
@@ -128,7 +128,7 @@ function Home(){
                 </div>
                 <div>
                         <Label >Experience</Label>
-                        <select type="text" placeholder="Experience" style={{width:'100%',height:'45px',padding:'0px 10px',color:" rgba(200, 200, 200, 1)",outline:'none',border: "1px solid rgba(200, 200, 200, 0.3)"}} name='experience' value={experience} onChange={handleInputChange}v>
+                        <select type="text" placeholder="Experience" style={{width:'100%',height:'45px',padding:'0px 10px',color:" black",outline:'none',border: "1px solid rgba(200, 200, 200, 0.3)"}} name='experience' value={experience} onChange={handleInputChange}v>
                         <option disabled selected>Experience</option>
                         <option>1-Year</option>
                         <option>2-Years</option>
